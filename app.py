@@ -63,6 +63,7 @@ with st.sidebar:
     st.header("Settings")
     exercise = st.selectbox("Exercise", sorted(list(SKILLS.keys())))
     target_fps = st.number_input("Target FPS (processing)", min_value=5, max_value=30, value=15, step=1)
+    max_seconds = st.number_input("Max seconds to process", min_value=2, max_value=30, value=8, step=1)
     # Aux controls (if any) will be shown by the selected skill
     show_overlay = st.checkbox("Show annotated key frame", value=True)
     feedback_mode = st.selectbox(
@@ -160,39 +161,44 @@ else:
     # Process each uploaded clip
     attempts = []
     tmp_dir = tempfile.mkdtemp()
-    for slot in upload_spec:
-        file = uploaded_files.get(slot["key"])
-        if not file:
-            continue
-        tmp_path = os.path.join(tmp_dir, file.name)
-        with open(tmp_path, "wb") as f:
-            f.write(file.read())
+    max_frames = int(target_fps * max_seconds) if target_fps else None
+    try:
+        for slot in upload_spec:
+            file = uploaded_files.get(slot["key"])
+            if not file:
+                continue
+            tmp_path = os.path.join(tmp_dir, file.name)
+            with open(tmp_path, "wb") as f:
+                f.write(file.read())
 
-        frames, fps = load_video(tmp_path, target_fps=target_fps)
-        if rotate_deg:
-            frames = [rotate_frame(frm, rotate_deg) for frm in frames]
-        if not frames:
-            continue
-        pose_seq = run_pose_on_frames(frames)
-        pose_seq_smooth = exp_smooth_pose(pose_seq)
-        if isinstance(aux, dict):
-            aux_in = dict(aux)
-        else:
-            aux_in = {}
-        aux_in["view"] = slot["key"]
-        features = skill.extract_features(pose_seq_smooth, aux=aux_in)
-        eval_res = skill.evaluate(features)
-        recs = skill.recommend_drills(eval_res.get("issues", []), kb)
+            frames, fps = load_video(tmp_path, target_fps=target_fps, max_frames=max_frames)
+            if rotate_deg:
+                frames = [rotate_frame(frm, rotate_deg) for frm in frames]
+            if not frames:
+                continue
+            pose_seq = run_pose_on_frames(frames)
+            pose_seq_smooth = exp_smooth_pose(pose_seq)
+            if isinstance(aux, dict):
+                aux_in = dict(aux)
+            else:
+                aux_in = {}
+            aux_in["view"] = slot["key"]
+            features = skill.extract_features(pose_seq_smooth, aux=aux_in)
+            eval_res = skill.evaluate(features)
+            recs = skill.recommend_drills(eval_res.get("issues", []), kb)
 
-        attempts.append({
-            "label": slot["label"],
-            "frames": frames,
-            "pose_seq": pose_seq_smooth,
-            "features": features,
-            "eval": eval_res,
-            "recs": recs,
-            "aux": aux_in,
-        })
+            attempts.append({
+                "label": slot["label"],
+                "frames": frames,
+                "pose_seq": pose_seq_smooth,
+                "features": features,
+                "eval": eval_res,
+                "recs": recs,
+                "aux": aux_in,
+            })
+    except Exception as exc:
+        st.error(f"Processing failed: {exc}")
+        st.stop()
 
     if not attempts:
         st.error("No valid frames were read from the uploaded video(s).")
