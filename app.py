@@ -1,6 +1,7 @@
 import os
 import json
 import tempfile
+import time
 from pathlib import Path
 
 import streamlit as st
@@ -10,10 +11,24 @@ import numpy as np
 from core.video_io import load_video
 from core.pose import run_pose_on_frames, exp_smooth_pose
 from core.overlay import render_pose_frame, draw_bar_line
-from skills.registry import get_skill, SKILLS
+from exercises.registry import get_skill, SKILLS
 
 # Run with:
 # py -3.11 -m streamlit run app.py
+def _load_dotenv(path: Path = Path(".env")) -> None:
+    if not path.exists():
+        return
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key and key not in os.environ:
+            os.environ[key] = value
+
+_load_dotenv()
 
 st.set_page_config(page_title="Sports Form Analyzer", layout="wide")
 st.title("Sports Form Analyzer")
@@ -89,12 +104,37 @@ for slot in upload_spec:
             st.caption(slot["instruction"])
         uploaded_files[slot["key"]] = f
 
+def _upload_signature(files: dict) -> str:
+    parts = []
+    for key in sorted(files.keys()):
+        f = files.get(key)
+        if f is None:
+            continue
+        size = getattr(f, "size", None)
+        parts.append(f"{key}:{f.name}:{size}")
+    return "|".join(parts)
+
+if "timer_start" not in st.session_state:
+    st.session_state["timer_start"] = None
+if "timer_running" not in st.session_state:
+    st.session_state["timer_running"] = False
+if "last_upload_signature" not in st.session_state:
+    st.session_state["last_upload_signature"] = ""
+if "last_elapsed" not in st.session_state:
+    st.session_state["last_elapsed"] = None
+
 # Validate: at least one required slot filled (or any slot if none are marked required)
 required_keys = [s["key"] for s in upload_spec if s.get("required")]
 if required_keys:
     has_required = any(uploaded_files.get(k) is not None for k in required_keys)
 else:
     has_required = any(f is not None for f in uploaded_files.values())
+
+upload_signature = _upload_signature(uploaded_files)
+if upload_signature and upload_signature != st.session_state["last_upload_signature"]:
+    st.session_state["timer_start"] = time.perf_counter()
+    st.session_state["timer_running"] = True
+    st.session_state["last_upload_signature"] = upload_signature
 
 if not has_required:
     st.info("Please upload at least the required clip to start.")
@@ -160,8 +200,13 @@ else:
 
     # LLM feedback over all attempts
     from core.llm_feedback import generate_feedback_multi
-    mode = "kb" if feedback_mode == "Use KB drills" else "angles_only"
+    mode = "kb" if feedback_mode == "Use rule-based comments" else "angles_only"
+    if not os.getenv("GEMINI_API_KEY"):
+        st.warning("GEMINI_API_KEY is not set. Using template feedback instead of Gemini.")
     coach_text = generate_feedback_multi(attempts, exercise, mode=mode)
+    if st.session_state.get("timer_running") and st.session_state.get("timer_start") is not None:
+        st.session_state["last_elapsed"] = time.perf_counter() - st.session_state["timer_start"]
+        st.session_state["timer_running"] = False
 
     # --- layout ---
     col1, col2 = st.columns([1, 1])
@@ -169,6 +214,8 @@ else:
     with col1:
         st.subheader("LLM Coaching Feedback")
         st.write(coach_text)
+        if st.session_state.get("last_elapsed") is not None:
+            st.write(f"Processing Time: {st.session_state['last_elapsed']:.2f} seconds")
 
     with col2:
         if show_overlay:

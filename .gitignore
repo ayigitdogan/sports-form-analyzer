@@ -1,0 +1,5 @@
+assets/demo_videos/*
+!assets/demo_videos/push_up_05*
+!assets/demo_videos/squat_04*
+!assets/demo_videos/squat_04b*
+.env

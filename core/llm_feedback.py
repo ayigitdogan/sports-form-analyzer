@@ -7,7 +7,7 @@ from typing import Dict, List, Any, Optional
 def _summarize_metrics_for_prompt(features: Dict[str, Any], exercise: str) -> str:
     """Try skill-specific summary; else fall back to generic top features."""
     try:
-        from skills.registry import get_skill
+        from exercises.registry import get_skill
         skill = get_skill(exercise)
         if hasattr(skill, "summarize_for_prompt"):
             txt = skill.summarize_for_prompt(features)
