@@ -1,8 +1,8 @@
-Sports Form Analyzer
+# Sports Form Analyzer
 
 This project analyzes short training videos to give simple, athlete-friendly feedback on movement quality. It runs pose estimation on uploaded clips, extracts key movement metrics, and uses Gemini to generate concise coaching tips and drill suggestions. The goal is to help athletes understand what they do well, what tends to break down, and how to improve with clear, actionable cues.
 
-Quickstart (Local)
+# Demo
 1) Prereqs: Python 3.11
 2) Create a virtualenv and install deps:
    - python -m venv .venv
