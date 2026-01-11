@@ -1,0 +1,23 @@
+{
+  "shallow_squat": {
+    "explain": "Hip stays above knee at the bottom. Aim for hip crease below knee for full depth.",
+    "drills": [
+      "Goblet squats with pause (3x8)",
+      "Box squats to target depth (3x6)"
+    ]
+  },
+  "excessive_forward_lean": {
+    "explain": "Torso leans forward too much at the bottom, indicating limited ankle/hip mobility or bracing.",
+    "drills": [
+      "Ankle dorsiflexion mobilizations (2x60s)",
+      "Front squats light focus on upright torso (3x6)"
+    ]
+  },
+  "knee_valgus": {
+    "explain": "Knees collapse inward relative to ankle width.",
+    "drills": [
+      "Mini-band lateral walks (3x15m)",
+      "Tempo squats focusing on knee tracking (3x6)"
+    ]
+  }
+}

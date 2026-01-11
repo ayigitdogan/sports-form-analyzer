@@ -1,0 +1,51 @@
+{
+  "excessive_forward_lean": {
+    "explain": "Torso angle is very horizontal at the start, increasing low back demand. Build tension and raise the chest.",
+    "drills": [
+      "Paused deadlifts 2s at mid-shin 3x4",
+      "Lat tension drills (straight-arm pulldown) 3x10"
+    ]
+  },
+  "too_upright": {
+    "explain": "Start position is very upright, often turning the pull into a squat. Set hips slightly higher and load the hamstrings.",
+    "drills": [
+      "Romanian deadlifts 3x6",
+      "Hip hinge wall taps 3x10"
+    ]
+  },
+  "knees_forward": {
+    "explain": "Knees travel too far forward, pushing the bar path away from midfoot.",
+    "drills": [
+      "Shin vertical setup holds 3x15s",
+      "Deadlifts from blocks 3x5"
+    ]
+  },
+  "hips_too_low": {
+    "explain": "Hips start too low, causing the bar to drift forward on the pull.",
+    "drills": [
+      "Start-position resets (setup, brace, reset) 3x5",
+      "Tempo pull from floor 3x4"
+    ]
+  },
+  "hips_too_high": {
+    "explain": "Hips start too high, shifting load away from the legs and into the back.",
+    "drills": [
+      "Deficit deadlifts (small plate) 3x4",
+      "Paused deadlift at 1 inch off floor 3x4"
+    ]
+  },
+  "shoulders_forward": {
+    "explain": "Shoulders drift in front of the midfoot, pulling the bar away from the body.",
+    "drills": [
+      "Lats-on cue: squeeze armpits before pull 3x5",
+      "Deadlift with PVC close to shins 3x6"
+    ]
+  },
+  "rounded_back_risk": {
+    "explain": "Hip hinge angle suggests spinal flexion risk. Focus on neutral spine and bracing.",
+    "drills": [
+      "Cat-camel to neutral spine rehearsal 2x6",
+      "Back extension hold (neutral) 3x20s"
+    ]
+  }
+}

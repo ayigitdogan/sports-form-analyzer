@@ -1,0 +1,30 @@
+{
+  "shallow_depth": {
+    "explain": "Elbows do not reach a deep bend at the bottom. Aim to lower until upper arms are roughly parallel to the floor.",
+    "drills": [
+      "Tempo push-ups (3s down, 1s up) 3x6",
+      "Elevated hands push-ups focusing on depth 3x8"
+    ]
+  },
+  "no_lockout": {
+    "explain": "Elbows are not fully extended at the top. Finish each rep with a strong lockout and protraction.",
+    "drills": [
+      "Plank to push-up lockout holds 3x20s",
+      "Scapular push-ups 3x10"
+    ]
+  },
+  "hip_sag": {
+    "explain": "Hips drop below the shoulder-ankle line, indicating bracing loss.",
+    "drills": [
+      "Hard-style plank 3x20s",
+      "Knee push-ups with strict bracing 3x8"
+    ]
+  },
+  "hips_piking": {
+    "explain": "Hips lift above the shoulder-ankle line, shifting load to the shoulders.",
+    "drills": [
+      "Incline push-ups with tight body line 3x8",
+      "Hollow body holds 3x20s"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "limited_top_range": {
+    "explain": "Top position is not high enough; elbows stay too open. Aim for chin clearly above the bar.",
+    "drills": [
+      "Assisted pull-ups to full height 3x5",
+      "Isometric holds at top 3x10s"
+    ]
+  },
+  "no_dead_hang": {
+    "explain": "Bottom position lacks full extension. Reset each rep in a controlled dead hang.",
+    "drills": [
+      "Dead hang resets between reps 3x4",
+      "Scap pull-ups 3x8"
+    ]
+  },
+  "swinging": {
+    "explain": "Torso swings or kips, reducing strict pulling control.",
+    "drills": [
+      "Strict tempo pull-ups (2s up, 3s down) 3x4",
+      "Hollow body hold + pull-up combo 3x6"
+    ]
+  },
+  "asymmetry": {
+    "explain": "Left and right sides rise unevenly, suggesting imbalanced pulling.",
+    "drills": [
+      "Band-assisted uneven grip pull-ups 3x5 each",
+      "Single-arm lat pulldown 3x8 each"
+    ]
+  }
+}
