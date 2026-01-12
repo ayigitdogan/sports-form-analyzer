@@ -2,6 +2,10 @@
 
 This project analyzes short training videos to give simple, athlete-friendly feedback on movement quality. It runs pose estimation on uploaded clips, extracts key movement metrics, and uses Gemini to generate concise coaching tips and drill suggestions. The goal is to help athletes understand what they do well, what tends to break down, and how to improve with clear, actionable cues.
 
+# Full Data Set and Test Results
+
+The results of the evaluation form shared with the coaches could be found at [this folder](https://drive.google.com/drive/folders/1fZm04SPN8HCSgKfBik_mIkJoks20fZ8J?usp=sharing) along with the full video recordings collected from student athletes.
+
 # Demo
 1) Prereqs: Python 3.11
 2) Create a virtualenv and install deps:
